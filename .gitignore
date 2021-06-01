@@ -1,6 +1,7 @@
 *.idea
 *__pycache__/
 *.ipynb_checkpoints
+*.DS_Store
 
 results
 src/fdrc.egg-info/
