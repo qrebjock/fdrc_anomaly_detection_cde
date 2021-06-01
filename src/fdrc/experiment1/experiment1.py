@@ -65,14 +65,17 @@ def experiment1(
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True)
 
-        fig = make_power_curve(recipe["anomaly_ratios"], results)
-        fig.savefig(str(output_dir / "fdr_power_curve.png"))
+        figure_dir = output_dir / "figures"
+        figure_dir.mkdir(parents=True)
 
-        fig = make_fdr_curve(recipe["anomaly_ratios"], results)
-        fig.savefig(str(output_dir / "fdr_curve.png"))
+        fig = make_power_curve(recipe, results)
+        fig.savefig(str(figure_dir / "power_curve.png"))
 
-        fig = make_decay_fdr_curve(recipe["anomaly_ratios"], results)
-        fig.savefig(str(output_dir / "decay_fdr_curve.png"))
+        fig = make_fdr_curve(recipe, results)
+        fig.savefig(str(figure_dir / "fdr_curve.png"))
+
+        fig = make_decay_fdr_curve(recipe, results)
+        fig.savefig(str(figure_dir / "decay_fdr_curve.png"))
 
         save_json(recipe, output_dir / "recipe.json", indent=4)
         save_json(datasets_list, output_dir / "data.json")
@@ -116,45 +119,73 @@ def experiment1_main(
     }
 
 
-def make_power_curve(anomaly_ratios, results):
+def make_power_curve(recipe, results):
+    anomaly_ratios = recipe["anomaly_ratios"]
+    repeats = recipe["repeats"]
+    y_errors = [
+        np.asarray([x for _, x in result["power"]]) / np.sqrt(repeats)
+        for result in results
+    ]
+
     return plot_curves(
         x=[anomaly_ratios] * len(results),
         y=[[x for x, _ in result["power"]] for result in results],
-        y_errors=[[x for x, _ in result["power"]] for result in results],
+        y_errors=y_errors,
         filter_names=[result["name"] for result in results],
         x_label="Proportion of Anomalies $\pi_1$",
         y_label="Power (Recall)",
         invert_xaxis=True,
         log_xscale=True,
-        legend_loc="lower left"
+        legend_loc="lower left",
+        fig_size=(12, 4),
+        label_size=20,
+        legend_size=12
     )
 
 
-def make_fdr_curve(anomaly_ratios, results):
+def make_fdr_curve(recipe, results):
+    anomaly_ratios = recipe["anomaly_ratios"]
+    repeats = recipe["repeats"]
+    y_errors = [
+        np.asarray([x for _, x in result["fdr"]]) / np.sqrt(repeats)
+        for result in results
+    ]
     return plot_curves(
         x=[anomaly_ratios] * len(results),
         y=[[x for x, _ in result["fdr"]] for result in results],
-        y_errors=[[x for x, _ in result["fdr"]] for result in results],
+        y_errors=y_errors,
         filter_names=[result["name"] for result in results],
         x_label="Proportion of Anomalies $\pi_1$",
         y_label="FDR (1-Precision)",
         invert_xaxis=True,
         log_xscale=True,
-        legend_loc="upper left"
+        legend_loc="upper left",
+        fig_size=(12, 4),
+        label_size=20,
+        legend_size=12
     )
 
 
-def make_decay_fdr_curve(anomaly_ratios, results):
+def make_decay_fdr_curve(recipe, results):
+    anomaly_ratios = recipe["anomaly_ratios"]
+    repeats = recipe["repeats"]
+    y_errors = [
+        np.asarray([x for _, x in result["decay_fdr"]]) / np.sqrt(repeats)
+        for result in results
+    ]
     return plot_curves(
         x=[anomaly_ratios] * len(results),
         y=[[x for x, _ in result["decay_fdr"]] for result in results],
-        y_errors=[[x for x, _ in result["decay_fdr"]] for result in results],
+        y_errors=y_errors,
         filter_names=[result["name"] for result in results],
         x_label="Proportion of Anomalies $\pi_1$",
         y_label="FDR (1-Precision)",
         invert_xaxis=True,
         log_xscale=True,
-        legend_loc="upper left"
+        legend_loc="upper left",
+        fig_size=(12, 4),
+        label_size=20,
+        legend_size=12
     )
 
 

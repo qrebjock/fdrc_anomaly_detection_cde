@@ -56,8 +56,8 @@ EXPERIMENT1_RECIPES = {
         },
     },
     "test_gaussian": {
-        "anomaly_ratios": [1e-3, 1e-2, 1e-1],
-        "repeats": [5, 5, 5],
+        "anomaly_ratios": [float(r) for r in np.logspace(-3, -0.05, 10)],
+        "repeats": [10] * 10,
         "data_model": "gaussian",
         "data_params": {
             "size": 1000,
@@ -67,8 +67,8 @@ EXPERIMENT1_RECIPES = {
         },
     },
     "test_ar": {
-        "anomaly_ratios": [1e-3, 1e-2, 1e-1],
-        "repeats": [5, 5, 5],
+        "anomaly_ratios": [float(r) for r in np.logspace(-3, -0.05, 10)],
+        "repeats": [10] * 10,
         "data_model": "gaussian",
         "data_params": {
             "size": 1000,

@@ -77,8 +77,11 @@ def experiment2(
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True)
 
+        figure_dir = output_dir / "figures"
+        figure_dir.mkdir(parents=True)
+
         fig = make_fdp_curve(results)
-        fig.savefig(str(output_dir/"fdr_power_curve.png"))
+        fig.savefig(str(figure_dir/"fdr_power_curve.png"))
 
         save_json(recipe, output_dir / "recipe.json", indent=4)
         save_json(datasets, output_dir / "data.json")

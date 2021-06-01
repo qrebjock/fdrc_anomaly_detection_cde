@@ -1,0 +1,85 @@
+{
+    "anomaly_ratios": [
+        0.0001,
+        0.0001833721315508882,
+        0.0003362533862951628,
+        0.0006165950018614823,
+        0.0011306633979496399,
+        0.002073321573485956,
+        0.0038018939632056127,
+        0.00697161399963468,
+        0.012783997194630244,
+        0.023442288153199226,
+        0.04298662347082281,
+        0.07882548774020219,
+        0.1445439770745928,
+        0.26505337179010824,
+        0.4860340175990221,
+        0.8912509381337456
+    ],
+    "data_model": "gaussian",
+    "data_params": {
+        "data_noise": 1.0,
+        "one_sided": true,
+        "signal_strength": 3.0,
+        "size": 20000
+    },
+    "filter_params": {
+        "addis": {
+            "candidacy_threshold": 0.25,
+            "discarding_threshold": 0.5,
+            "fdr_target": 0.1,
+            "gamma_exponent": 1.6,
+            "gamma_size": 20000
+        },
+        "decay_lord": {
+            "delta": 0.99,
+            "fdr_target": 0.1,
+            "gamma_size": 20000
+        },
+        "decay_saffron": {
+            "candidacy_threshold": 0.5,
+            "delta": 0.99,
+            "fdr_target": 0.1,
+            "gamma_exponent": 1.6,
+            "gamma_size": 20000
+        },
+        "lord": {
+            "delta": 1.0,
+            "fdr_target": 0.1,
+            "gamma_size": 20000
+        },
+        "saffron": {
+            "candidacy_threshold": 0.5,
+            "fdr_target": 0.1,
+            "gamma_exponent": 1.6,
+            "gamma_size": 20000
+        }
+    },
+    "filters": [
+        "LORDFilter",
+        "DecayLORDFilter",
+        "SAFFRONFilter",
+        "DecaySAFFRONFilter",
+        "ADDISFilter"
+    ],
+    "gamma_size": 20000,
+    "repeats": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        50,
+        50,
+        50,
+        50,
+        10,
+        10,
+        10,
+        10
+    ]
+}

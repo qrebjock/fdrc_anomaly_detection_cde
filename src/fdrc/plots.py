@@ -104,9 +104,11 @@ def plot_curves(
     title: str = None,
     x_label: str = None,
     y_label: str = None,
+    label_size: int = 16,
+    legend_size: int = 12,
     legend_loc: str = "upper left",
     invert_xaxis: bool = False,
-    log_xscale: bool = False
+    log_xscale: bool = False,
 ):
     fig = plt.Figure(figsize=fig_size)
     ax = fig.gca()
@@ -134,9 +136,9 @@ def plot_curves(
     if title:
         ax.set_title(title)
     ax.grid(linestyle='--', linewidth=1)
-    ax.legend(loc=legend_loc, fontsize=12)
-    ax.set_xlabel(x_label, fontsize=14)
-    ax.set_ylabel(y_label, fontsize=14)
+    ax.legend(loc=legend_loc, fontsize=legend_size)
+    ax.set_xlabel(x_label, fontsize=label_size)
+    ax.set_ylabel(y_label, fontsize=label_size)
     return fig
 
 # -----------------------------------------
