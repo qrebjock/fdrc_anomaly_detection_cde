@@ -18,7 +18,8 @@ EXPERIMENT_FOLDER = RESULTS_FOLDER / "experiment2"
 
 def experiment2(
     recipe: Dict,
-    output_dir: Optional[str]
+    output_dir: Optional[str] = None,
+    make_figures: bool = False
 ) -> Tuple:
 
     results, timer = [], TicTocTimer()
@@ -77,15 +78,16 @@ def experiment2(
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True)
 
-        figure_dir = output_dir / "figures"
-        figure_dir.mkdir(parents=True)
-
-        fig = make_fdp_curve(results)
-        fig.savefig(str(figure_dir/"fdr_power_curve.png"))
-
         save_json(recipe, output_dir / "recipe.json", indent=4)
         save_json(datasets, output_dir / "data.json")
         save_json(results, output_dir / "results.json")
+
+        if make_figures:
+            figure_dir = output_dir / "figures"
+            figure_dir.mkdir(parents=True)
+
+            fig = make_fdp_curve(results)
+            fig.savefig(str(figure_dir / "fdr_power_curve.png"))
 
         print(f"Results are saved to: {output_dir.relative_to(RESULTS_FOLDER)}")
 

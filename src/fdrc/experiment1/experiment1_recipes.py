@@ -79,5 +79,22 @@ EXPERIMENT1_RECIPES = {
             "window_size": 10,
             "one_sided": True
         },
-    }
+    },
+    "submitted": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [100] * 8 + [50] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "fdr_target": 0.1,
+        "data_model": "gaussian",
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 3.0,
+            "data_noise": 1.0,
+            "one_sided": True,
+        },
+    },
+    "ar-model-1": {
+
+    },
 }

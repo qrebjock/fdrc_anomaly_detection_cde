@@ -18,7 +18,8 @@ EXPERIMENT_FOLDER = RESULTS_FOLDER / "experiment1"
 
 def experiment1(
     recipe: Dict,
-    output_dir: Optional[str]
+    output_dir: Optional[str] = None,
+    make_figures: bool = False
 ) -> Tuple:
 
     timer = TicTocTimer()
@@ -65,22 +66,13 @@ def experiment1(
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True)
 
-        figure_dir = output_dir / "figures"
-        figure_dir.mkdir(parents=True)
-
-        fig = make_power_curve(recipe, results)
-        fig.savefig(str(figure_dir / "power_curve.png"))
-
-        fig = make_fdr_curve(recipe, results)
-        fig.savefig(str(figure_dir / "fdr_curve.png"))
-
-        fig = make_decay_fdr_curve(recipe, results)
-        fig.savefig(str(figure_dir / "decay_fdr_curve.png"))
-
         save_json(recipe, output_dir / "recipe.json", indent=4)
         save_json(datasets_list, output_dir / "data.json")
         save_json(results, output_dir / "results.json")
         print(f"Results are saved to: {output_dir.relative_to(RESULTS_FOLDER)}")
+
+        if make_figures:
+            make_curves(recipe, results, output_dir)
 
     print(f"Total time: {timer.toc()}")
     return recipe, datasets_list, results
@@ -117,6 +109,22 @@ def experiment1_main(
         "fdr": fdr,
         "decay_fdr": decay_fdr
     }
+
+
+def make_curves(recipe, results, output_dir):
+    figure_dir = output_dir / "figures"
+    figure_dir.mkdir(parents=True)
+
+    fig = make_power_curve(recipe, results)
+    fig.savefig(str(figure_dir / "power_curve.png"))
+
+    fig = make_fdr_curve(recipe, results)
+    fig.savefig(str(figure_dir / "fdr_curve.png"))
+
+    fig = make_decay_fdr_curve(recipe, results)
+    fig.savefig(str(figure_dir / "decay_fdr_curve.png"))
+
+    print(f"Figures are saved to: {figure_dir.relative_to(RESULTS_FOLDER)}")
 
 
 def make_power_curve(recipe, results):
@@ -191,10 +199,12 @@ def make_decay_fdr_curve(recipe, results):
 
 @click.command()
 @click.option("--recipe-name", "-r", required=True)
-def main(recipe_name):
+@click.option("--make-figures", "-f", is_flag=True)
+def main(recipe_name, make_figures):
     return experiment1(
         recipe=get_recipe(EXPERIMENT1_RECIPES, recipe_name),
-        output_dir=timestamped_name(EXPERIMENT_FOLDER, recipe_name)
+        output_dir=timestamped_name(EXPERIMENT_FOLDER, recipe_name),
+        make_figures=make_figures
     )
 
 
