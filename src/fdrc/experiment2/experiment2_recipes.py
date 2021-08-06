@@ -169,5 +169,63 @@ EXPERIMENT2_RECIPES = {
             "model_noise": 1.0,
             "one_sided": True,
         },
+    },
+    "piecewise-1": {
+        "delta": 0.99,
+        "gamma_size": 10000,
+        "data_model": "gaussian",
+        "data_params": {
+            "size": 14000,
+            "anomaly_ratio": [0.01] * 2000 + [0.0] * 10000 + [0.01] * 2000,
+            "signal_strength": 3.0,
+            "data_noise": 1.0,
+            "model_noise": 1.0,
+            "one_sided": True,
+        },
+    },
+    "piecewise-2": {
+        "delta": 0.99,
+        "gamma_size": 10000,
+        "data_model": "gaussian",
+        "data_params": {
+            "size": 14000,
+            "anomaly_ratio": [0.01] * 2000 + [0.0] * 10000 + [0.01] * 2000,
+            "signal_strength": 4.0,
+            "data_noise": 1.0,
+            "model_noise": 1.0,
+            "one_sided": True,
+        },
+    },
+    "fixed-threshold-1": {
+        "delta": 0.99,
+        "repeat": 30,
+        "gamma_size": 2000,
+        "data_model": "gaussian",
+        "data_params": {
+            "size": 2000,
+            "anomaly_ratio": 0.01,
+            "signal_strength": list(np.linspace(3.0, 4.0, 2000)),
+            "data_noise": 1.0,
+            "model_noise": 1.0,
+            "one_sided": True,
+        },
+    },
+    "fixed-threshold-2": {
+        "delta": 0.99,
+        "repeat": 30,
+        "gamma_size": 2000,
+        "data_model": "ar",
+        "data_params": {
+            "anomaly_ratio": 0.01,
+            "size": 2000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": True,
+            "model": "exact",
+            "method": "filter",
+            "window_size": 64
+        }
     }
 }

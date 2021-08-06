@@ -58,7 +58,7 @@ def get_recipe(
     recipe = recipes["default"].copy()
 
     # Overwrite params from recipe
-    if recipe_name:
+    if recipe_name is not None and recipe_name != "default":
         overwrite(recipe, recipes[recipe_name])
 
     # Overwrite params from command line

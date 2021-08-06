@@ -33,7 +33,7 @@ def experiment1(
         params = recipe["data_params"].copy()
         params["anomaly_ratio"] = anomaly_ratio
         datasets_list.append(
-            make_hypothesis(recipe["data_model"], recipe["data_params"], n=rep)
+            make_hypothesis(recipe["data_model"], params, n=rep)
         )
 
     # --------------------------------
@@ -113,16 +113,16 @@ def experiment1_main(
 
 def make_curves(recipe, results, output_dir):
     figure_dir = output_dir / "figures"
-    figure_dir.mkdir(parents=True)
+    figure_dir.mkdir(parents=True, exist_ok=True)
 
     fig = make_power_curve(recipe, results)
-    fig.savefig(str(figure_dir / "power_curve.png"))
+    fig.savefig(str(figure_dir / "power_curve.eps"), dpi=300)
 
     fig = make_fdr_curve(recipe, results)
-    fig.savefig(str(figure_dir / "fdr_curve.png"))
+    fig.savefig(str(figure_dir / "fdr_curve.eps"), dpi=300)
 
     fig = make_decay_fdr_curve(recipe, results)
-    fig.savefig(str(figure_dir / "decay_fdr_curve.png"))
+    fig.savefig(str(figure_dir / "decay_fdr_curve.eps"), dpi=300)
 
     print(f"Figures are saved to: {figure_dir.relative_to(RESULTS_FOLDER)}")
 
@@ -151,7 +151,7 @@ def make_power_curve(recipe, results):
     )
 
 
-def make_fdr_curve(recipe, results):
+def make_fdr_curve(recipe, results, target: Optional[int] = None):
     anomaly_ratios = recipe["anomaly_ratios"]
     repeats = recipe["repeats"]
     y_errors = [
@@ -170,11 +170,12 @@ def make_fdr_curve(recipe, results):
         legend_loc="upper left",
         fig_size=(12, 4),
         label_size=20,
-        legend_size=12
+        legend_size=12,
+        target=target,
     )
 
 
-def make_decay_fdr_curve(recipe, results):
+def make_decay_fdr_curve(recipe, results, target=None, y_lim=None):
     anomaly_ratios = recipe["anomaly_ratios"]
     repeats = recipe["repeats"]
     y_errors = [
@@ -187,13 +188,15 @@ def make_decay_fdr_curve(recipe, results):
         y_errors=y_errors,
         filter_names=[result["name"] for result in results],
         x_label="Proportion of Anomalies $\pi_1$",
-        y_label="FDR (1-Precision)",
+        y_label="FDR$_\delta$ (1-Precision)",
         invert_xaxis=True,
         log_xscale=True,
         legend_loc="upper left",
         fig_size=(12, 4),
         label_size=20,
-        legend_size=12
+        legend_size=12,
+        target=target,
+        y_lim=y_lim,
     )
 
 

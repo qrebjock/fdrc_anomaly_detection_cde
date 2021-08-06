@@ -1,0 +1,1 @@
+autossh -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" -L 8889:localhost:8889 barisk-fasulye.aka.corp.amazon.com

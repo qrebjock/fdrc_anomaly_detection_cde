@@ -82,7 +82,7 @@ EXPERIMENT1_RECIPES = {
     },
     "submitted": {
         "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
-        "repeats": [100] * 8 + [50] * 4 + [10] * 4,
+        "repeats": [80] * 8 + [40] * 4 + [10] * 4,
         "delta": 0.99,
         "gamma_size": 20000,
         "fdr_target": 0.1,
@@ -95,6 +95,132 @@ EXPERIMENT1_RECIPES = {
         },
     },
     "ar-model-1": {
-
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [40] * 8 + [20] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 3.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": False,
+            "model": "sliding_window",
+            "method": "filter",
+            "window_size": 64
+        }
+    },
+    "ar-model-2": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [40] * 8 + [20] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": False,
+            "model": "sliding_window",
+            "method": "filter",
+            "window_size": 64
+        }
+    },
+    "ar-model-3": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [40] * 8 + [20] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": True,
+            "model": "sliding_window",
+            "method": "filter",
+            "window_size": 64
+        }
+    },
+    "ar-model-4": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [40] * 8 + [20] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": False,
+            "model": "exact",
+            "method": "filter",
+            "window_size": 64
+        }
+    },
+    "ar-model-5": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [40] * 8 + [20] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": True,
+            "model": "exact",
+            "method": "filter",
+            "window_size": 64
+        }
+    },
+    "ar-model-6": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.05, 16)],
+        "repeats": [30] * 8 + [15] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "data_model": "ar",
+        "fdr_target": 0.1,
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 4.0,
+            "noise": 1.0,
+            "c": 0.0,
+            "phi": 0.9,
+            "one_sided": True,
+            "model": "sliding_window",
+            "method": "filter",
+            "window_size": 10
+        }
+    },
+    "local_dependency": {
+        "anomaly_ratios": [float(r) for r in np.logspace(-4, -0.4, 16)],
+        "repeats": [30] * 8 + [15] * 4 + [10] * 4,
+        "delta": 0.99,
+        "gamma_size": 20000,
+        "fdr_target": 0.1,
+        "data_model": "gaussian",
+        "data_params": {
+            "size": 20000,
+            "signal_strength": 3.0,
+            "data_noise": 1.0,
+            "one_sided": True,
+            "dependency": 0.8
+        },
     },
 }

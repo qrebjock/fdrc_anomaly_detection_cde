@@ -3,8 +3,7 @@ import numpy as np
 
 from pathlib import Path
 from datetime import datetime
-from typing import List, Tuple, Union, Dict
-from fdrc.filters import build_filter
+from typing import List, Tuple, Union
 
 
 def timestamped_name(folder_name, recipe_name, suffix=None):

@@ -30,12 +30,20 @@ MARKERS = {
 
 PLOT_ORDER = [
     "FixedThresholdFilter",
+    "ADDISFilter",
     "DecayLORDFilter",
     "DecaySAFFRONFilter",
     "LORDFilter",
     "SAFFRONFilter",
-    "ADDISFilter",
 ]
+
+LABELS = {
+    "LORDFilter": "Lord",
+    "SAFFRONFilter": "Saffron",
+    "DecaySAFFRONFilter": "DecaySaffron",
+    "DecayLORDFilter": "DecayLord",
+    "ADDISFilter": "Addis",
+}
 
 # To make plots that render well with LaTeX:
 plt.rc("text", usetex=True)
@@ -109,9 +117,16 @@ def plot_curves(
     legend_loc: str = "upper left",
     invert_xaxis: bool = False,
     log_xscale: bool = False,
+    x_lim: Optional[Tuple] = None,
+    y_lim: Optional[Tuple] = None,
+    target: Optional[int] = None
 ):
     fig = plt.Figure(figsize=fig_size)
     ax = fig.gca()
+
+    if target:
+        ax.axhline(target, color="k", alpha=0.8, label="Target")
+
     for filter_name in PLOT_ORDER:
         if filter_name not in filter_names:
             continue
@@ -120,7 +135,7 @@ def plot_curves(
             x=x[idx],
             y=y[idx],
             y_error=y_errors[idx] if y_errors is not None else None,
-            label=filter_name,
+            label=LABELS[filter_name],
             color=COLORS[filter_name],
             ax=ax,
             base_kwargs={
@@ -139,6 +154,10 @@ def plot_curves(
     ax.legend(loc=legend_loc, fontsize=legend_size)
     ax.set_xlabel(x_label, fontsize=label_size)
     ax.set_ylabel(y_label, fontsize=label_size)
+    if y_lim:
+        ax.set_ylim(y_lim)
+    if x_lim:
+        ax.set_ylim(x_lim)
     return fig
 
 # -----------------------------------------
