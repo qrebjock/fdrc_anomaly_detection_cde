@@ -133,7 +133,7 @@ def experiment_smd(
             figure_dir.mkdir(parents=True)
 
             fig = make_fdp_curve(results)
-            fig.savefig(str(figure_dir / "fdr_power_curve.png"))
+            fig.savefig(str(figure_dir / "fdr_power_curve.pdf"), dpi=1200)
 
         print(f"Results are saved to: {output_dir.relative_to(RESULTS_FOLDER)}")
 

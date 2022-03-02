@@ -38,6 +38,7 @@ PLOT_ORDER = [
 ]
 
 LABELS = {
+    "FixedThresholdFilter": "FixedThreshold",
     "LORDFilter": "Lord",
     "SAFFRONFilter": "Saffron",
     "DecaySAFFRONFilter": "DecaySaffron",

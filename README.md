@@ -31,3 +31,15 @@ You can run the experiment 2 as
 it will run the `test_gaussian` recipe in `EXPERIMENT2_RECIPES` and will create and 
 output folder `results/experiment2/test_gaussian_TIMESTAMP` with results and a Power-FDR
 figure.
+
+## Experiment 3 (SMD):
+
+You can run SMD experiment as 
+
+ `python src/fdrc/experiment_smd/experiment_smd.py -r p5`
+ 
+ it will run `p5` recipe in EXPERIMENT_SMD_RECIPES
+ 
+ You can plot results as
+ 
+ `python src/fdrc/experiment_smd/experiment_smd_plots.py`

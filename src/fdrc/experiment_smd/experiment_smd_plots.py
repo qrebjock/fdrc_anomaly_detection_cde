@@ -7,27 +7,14 @@ from fdrc.utils import load_experiment
 from fdrc.experiment2 import make_fdp_curve
 from fdrc.plots import plot_curves
 
-
-EXPERIMENTS = [
-    "p1-2021-08-09-21-39-03",
-    "p1_long_gamma-2021-08-10-02-57-13",
-    "p5-2021-08-10-01-43-48",
-    "p5_long_gamma-2021-08-10-07-34-52",
-    "p10-2021-08-09-12-26-44",
-    "p10_long_gamma-2021-08-10-08-51-12",
-    "p20-2021-08-10-02-49-47",
-    "p20_long_gamma-2021-08-10-09-19-17",
-    "p50-2021-08-10-12-12-47",
-    "p50_long_gamma-2021-08-10-12-20-12",
-    "chi-2021-08-10-12-28-07",
-]
-
 SMD_RESULTS_DIR = Path(os.path.abspath(__file__)).parents[3] / "results/experiment_smd"
+
+EXCLUDED_FILTERS = ["FixedThresholdFilter", "ADDISFilter"]
 
 
 def plot_smd(results, recipe, metric, y_label):
     filter_results = [
-        result for result in results if result["name"] != "FixedThresholdFilter"
+        result for result in results if result["name"] not in EXCLUDED_FILTERS
     ]
 
     y_errors = [
@@ -43,6 +30,7 @@ def plot_smd(results, recipe, metric, y_label):
         fig_size=(10, 10),
         label_size=20,
         legend_size=14,
+        legend_loc="lower right",
         x_label="Target FDR (1-Precision)",
         y_label=y_label,
         x_lim=(0, 1),
@@ -59,7 +47,9 @@ def make_plot_for(experiment):
     plots_dir = exp_dir / "plots"
     plots_dir.mkdir(parents=True, exist_ok=True)
 
-    fig1 = make_fdp_curve(results)
+    fig1 = make_fdp_curve(
+        [result for result in results if result["name"] != "ADDISFilter"]
+    )
     fig1.savefig(str(plots_dir / "fdp_curve.pdf"))
     fig1.savefig(str(plots_dir / "fdp_curve.png"))
 
@@ -68,7 +58,7 @@ def make_plot_for(experiment):
     fig2.savefig(str(plots_dir / "true_fdr.png"))
 
     fig3 = plot_smd(
-        results, recipe, "decay_fdr", y_label="Actual Decay FDR (1-Precision)"
+        results, recipe, "decay_fdr", y_label="Actual FDR$_\delta$ (1-Precision)"
     )
     fig3.savefig(str(plots_dir / "decay_fdr.pdf"))
     fig3.savefig(str(plots_dir / "decay_fdr.png"))
@@ -79,10 +69,12 @@ def make_plot_for(experiment):
 
 
 def make_plots(experiment_name: str = None):
-
-    experiments = EXPERIMENTS
+    """
+    If experiment_name is None, plot for all experiments
+    """
+    experiments = [x.name for x in SMD_RESULTS_DIR.glob('*') if x.is_dir()]
     if experiment_name:
-        assert experiment_name in EXPERIMENTS, f"No such experiment: {experiment_name}"
+        assert experiment_name in experiments, f"No such experiment: {experiment_name}"
         experiments = [experiment_name]
 
     for i, experiment in enumerate(experiments, start=1):
